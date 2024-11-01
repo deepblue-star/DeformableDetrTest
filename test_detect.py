@@ -27,7 +27,9 @@ transform = T.Compose([
 # plot box by opencv
 def plot_result(pil_img, prob, boxes, save_name=None, imshow=False, imwrite=True):
     opencvImage = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
-    LABEL = ['obj37', 'obj6', 'obj20', 'obj12', 'obj7', 'obj8']
+    # LABEL = ['obj37', 'obj6', 'obj20', 'obj12', 'obj7', 'obj8']
+    LABEL = ['obj6']
+
     for p, (xmin, ymin, xmax, ymax) in zip(prob, boxes):
         cl = p.argmax()
         label_text = '{}: {}%'.format(LABEL[cl], round(p[cl] * 100, 2))
@@ -77,7 +79,7 @@ def load_model(model_path, args):
 
 
 # 图像的推断
-def detect(im, model, transform, prob_threshold=0.7):
+def detect(im, model, transform, prob_threshold=0.97):
     # mean-std normalize the input image (batch-size: 1)
     img = transform(im).unsqueeze(0)
 

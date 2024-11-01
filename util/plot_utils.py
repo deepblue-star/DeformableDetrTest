@@ -60,7 +60,7 @@ def plot_logs(logs, fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col
     for df, color in zip(dfs, sns.color_palette(n_colors=len(logs))):
         for j, field in enumerate(fields):
             if field == 'mAP':
-                coco_eval = pd.DataFrame(pd.np.stack(df.test_coco_eval.dropna().values)[:, 1]).ewm(com=ewm_col).mean()
+                coco_eval = pd.DataFrame(pd.np.stack(df.test_coco_eval_bbox.dropna().values)[:, 1]).ewm(com=ewm_col).mean()
                 axs[j].plot(coco_eval, c=color)
             else:
                 df.interpolate().ewm(com=ewm_col).mean().plot(
@@ -109,9 +109,9 @@ def plot_precision_recall(files, naming_scheme='iter'):
 
 
 if __name__ == '__main__':
-    files = list(Path(r'/home/ubuntu/user/zhanghaozheng/Deformable-DETR-main/Deformable-DETR-main-repo/train_result/eval').glob('*.pth'))
+    files = list(Path(r'/home/ubuntu/user/zhanghaozheng/Deformable-DETR-main/Deformable-DETR-main-repo/train_result/class2/2024-10-18 11:15:39/eval').glob('*.pth'))
     plot_precision_recall(files)
     plt.show()
-    plot_logs(logs=Path(r'/home/ubuntu/user/zhanghaozheng/Deformable-DETR-main/Deformable-DETR-main-repo/train_result'),fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col=0, log_name='log.txt')
+    plot_logs(logs=Path(r'/home/ubuntu/user/zhanghaozheng/Deformable-DETR-main/Deformable-DETR-main-repo/train_result/class2/2024-10-18 11:15:39'),fields=('class_error', 'loss_bbox_unscaled', 'mAP'), ewm_col=0, log_name='log.txt')
     plt.show()
 
