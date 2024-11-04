@@ -28,7 +28,7 @@ transform = T.Compose([
 def plot_result(pil_img, prob, boxes, save_name=None, imshow=False, imwrite=True):
     opencvImage = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
     # LABEL = ['obj37', 'obj6', 'obj20', 'obj12', 'obj7', 'obj8']
-    LABEL = ['obj6']
+    LABEL = ['obj6', 'obj7']
 
     for p, (xmin, ymin, xmax, ymax) in zip(prob, boxes):
         cl = p.argmax()

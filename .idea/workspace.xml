@@ -4,27 +4,35 @@
     <list default="true" id="a1507daf-f05b-4de4-8a97-2326905f6e02" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/constants/train_constant.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants/train_constant.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/pred03/1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/104.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/105.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/106.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/107.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/108.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/1332.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/14.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/15.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/16.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/17.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/pred03/2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/pred03/3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output/pred03/2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output/pred03/3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/333.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/pred03/333.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/396.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/pred03/396.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/416.png" beforeDir="false" afterPath="$PROJECT_DIR$/output/pred03/416.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/44.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output/pred03/44.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/48.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/5.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output/pred03/666.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/667.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/668.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/680.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/85.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/output/pred03/85.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output/pred03/微信图片_20240718162042.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_images/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/test_images/1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_images/2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/test_images/2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_images/666.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/plot_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/util/plot_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/pred03/微信图片_20240718162503.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_detect.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_detect.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,10 +180,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.test_detect" />
-        <item itemvalue="Python.train_constant" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.convert_pretrained_model" />
+        <item itemvalue="Python.train_constant" />
         <item itemvalue="Python.plot_utils" />
+        <item itemvalue="Python.convert_pretrained_model" />
       </list>
     </recent_temporary>
   </component>
@@ -194,9 +202,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/deformable_detr.py</url>
-          <line>133</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/engine.py</url>
+          <line>161</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
