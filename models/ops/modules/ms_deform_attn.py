@@ -31,8 +31,8 @@ class MSDeformAttn(nn.Module):
     def __init__(self, d_model=256, n_levels=4, n_heads=8, n_points=4):
         """
         Multi-Scale Deformable Attention Module
-        :param d_model      hidden dimension
-        :param n_levels     number of feature levels
+        :param d_model      hidden dimension, backbone特征图的channel，这里为256
+        :param n_levels     number of feature levels, backbone特征图有几个尺度，这里为4
         :param n_heads      number of attention heads
         :param n_points     number of sampling points per attention head per feature level
         """
@@ -58,6 +58,7 @@ class MSDeformAttn(nn.Module):
         self.output_proj = nn.Linear(d_model, d_model)
 
         self._reset_parameters()
+        self.reference_points = None
 
     def _reset_parameters(self):
         constant_(self.sampling_offsets.weight.data, 0.)
@@ -112,4 +113,5 @@ class MSDeformAttn(nn.Module):
         output = MSDeformAttnFunction.apply(
             value, input_spatial_shapes, input_level_start_index, sampling_locations, attention_weights, self.im2col_step)
         output = self.output_proj(output)
+        self.reference_points = reference_points
         return output

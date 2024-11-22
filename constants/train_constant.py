@@ -3,6 +3,7 @@ import datetime
 
 
 class TrainConstant:
+    LABEL = ['obj6', 'obj7']
 
     now = datetime.datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")

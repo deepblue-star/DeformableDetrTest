@@ -142,6 +142,10 @@ class DeformableTransformer(nn.Module):
             lvl_pos_embed_flatten.append(lvl_pos_embed)
             src_flatten.append(src)
             mask_flatten.append(mask)
+        # src_flatten[0]: B * (H/8 * W/8) * C
+        # src_flatten[1]: B * (H/16 * W/16) * C
+        # src_flatten[2]: B * (H/32 * W/32) * C
+        # src_flatten[3]: B * (H/64 * W/64) * C
         src_flatten = torch.cat(src_flatten, 1)
         mask_flatten = torch.cat(mask_flatten, 1)
         lvl_pos_embed_flatten = torch.cat(lvl_pos_embed_flatten, 1)
@@ -150,6 +154,7 @@ class DeformableTransformer(nn.Module):
         valid_ratios = torch.stack([self.get_valid_ratio(m) for m in masks], 1)
 
         # encoder
+        # memory: B * (H/8 * W/8 + H/16 * W/16 + H/32 * W/32 + H/64 * W/64) * C
         memory = self.encoder(src_flatten, spatial_shapes, level_start_index, valid_ratios, lvl_pos_embed_flatten, mask_flatten)
 
         # prepare input for decoder
@@ -251,6 +256,8 @@ class DeformableTransformerEncoder(nn.Module):
 
     def forward(self, src, spatial_shapes, level_start_index, valid_ratios, pos=None, padding_mask=None):
         output = src
+        # B * (H/8 * W/8 + H/16 * W/16 + H/32 * W/32 + H/64 * W/64) * 4 * 2
+        # 4代表4个尺度的特征图，每个尺度都有一个reference_point
         reference_points = self.get_reference_points(spatial_shapes, valid_ratios, device=src.device)
         for _, layer in enumerate(self.layers):
             output = layer(output, pos, reference_points, spatial_shapes, level_start_index, padding_mask)
