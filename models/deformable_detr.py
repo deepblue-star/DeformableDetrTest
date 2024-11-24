@@ -141,6 +141,7 @@ class DeformableDETR(nn.Module):
             assert mask is not None
         if self.num_feature_levels > len(srcs):
             _len_srcs = len(srcs)
+            # 这里将backbone的输出特图尺度补齐至num_feature_levels数量，backbone输出只有三个尺度，这里补到了4
             for l in range(_len_srcs, self.num_feature_levels):
                 if l == _len_srcs:
                     src = self.input_proj[l](features[-1].tensors)
@@ -159,7 +160,8 @@ class DeformableDETR(nn.Module):
         # srcs是backbone输出的多尺度特征，共三个尺度
         # srcs[0]: B * 256 * H/8 * W/8
         # srcs[1]: B * 256 * H/16 * W/16
-        # srcs[1]: B * 256 * H/32 * W/32
+        # srcs[2]: B * 256 * H/32 * W/32
+        # 第四个尺度来源于backbone之后的补齐操作
         hs, init_reference, inter_references, enc_outputs_class, enc_outputs_coord_unact = self.transformer(srcs, masks, pos, query_embeds)
 
         outputs_classes = []
@@ -182,7 +184,7 @@ class DeformableDETR(nn.Module):
             outputs_coords.append(outputs_coord)
         outputs_class = torch.stack(outputs_classes)
         outputs_coord = torch.stack(outputs_coords)
-
+        # outputs_class和outputs_coord保存了6个层的结果
         out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
         if self.aux_loss:
             out['aux_outputs'] = self._set_aux_loss(outputs_class, outputs_coord)

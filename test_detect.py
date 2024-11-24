@@ -109,15 +109,17 @@ def detect(im, model, transform, prob_threshold=0.97):
     end = time.time()
     return probas[keep], bboxes_scaled, end - start
 
-def visualize_attention_v3(image, img_path, model, save_name, prob_threshold=0.97, imwrite=True):
-    start = time.time()
+def visualize_attention_v3(img_path, model, prob_threshold=0.97):
     w = AttentionVisualizer(model)
-    result = w.run_and_return_img(img_path)
+    result = w.run_and_return_img(img_path, prob_threshold)
+    return result
+
+def save_heatmap(viz_result_dic, image, save_name):
     image = np.array(image)
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-    heat_mask = result["enc_attention_visualization"]
-    reference_points = result["reference_points"]
+    heat_mask = viz_result_dic["enc_attention_visualization"]
+    reference_points = viz_result_dic["reference_points"]
     if heat_mask is not None:
         heat_mask = heat_mask[:, :, :3]
         # 步骤 0：h w转成w h
@@ -138,21 +140,25 @@ def visualize_attention_v3(image, img_path, model, save_name, prob_threshold=0.9
     else:
         masked_img = image
 
+    if not os.path.exists("./output/pred03"):
+        os.makedirs('./output/pred03')
+    split_name = save_name.split(".")
+    split_name.insert(-1, "_heatmap.")
+    save_name = "".join(split_name)
 
-    if imwrite:
-        if not os.path.exists("./output/pred03"):
-            os.makedirs('./output/pred03')
-        split_name = save_name.split(".")
-        split_name.insert(-1, "_heatmap.")
-        save_name = "".join(split_name)
+    cv2.imwrite('./output/pred03/{}'.format(save_name), masked_img)
 
-        cv2.imwrite('./output/pred03/{}'.format(save_name), masked_img)
-    end = time.time()
-    return end - start
+def save_feature_map(viz_result_dic, save_name):
+    feature_map = viz_result_dic["backbone_features_visualization"]
 
-def visualize_attention_v4(image, img_path, model, save_name, prob_threshold=0.97, imwrite=True):
-    w = AttentionVisualizer(model)
-    w.run(img_path)
+    if not os.path.exists("./output/pred03"):
+        os.makedirs('./output/pred03')
+    split_name = save_name.split(".")
+    split_name.insert(-1, "_feature_map.")
+    save_name = "".join(split_name)
+
+    cv2.imwrite('./output/pred03/{}'.format(save_name), feature_map)
+
 
 if __name__ == "__main__":
 
@@ -165,14 +171,16 @@ if __name__ == "__main__":
 
     cn = 0
     waste = 0
+    prob_threshold = 0.97
     for file in files:
         img_path = os.path.join(list_path, file)
         im = Image.open(img_path)
-        scores, boxes, waste_time = detect(im, dfdetr, transform)
+        scores, boxes, waste_time = detect(im, dfdetr, transform, prob_threshold)
         plot_result(im, scores, boxes, save_name=file, imshow=False, imwrite=True)
-        visualize_time = visualize_attention_v3(im, img_path, dfdetr, file)
+        viz_result_dict = visualize_attention_v3(img_path, dfdetr, prob_threshold)
+        save_heatmap(viz_result_dict, im, file)
+        save_feature_map(viz_result_dict, file)
         print("{} [INFO] {} detect time: {} done!!!".format(cn, file, waste_time))
-        print("{} [INFO] {} visualize heatmap time: {} done!!!".format(cn, file, visualize_time))
 
         cn += 1
         print(cn)

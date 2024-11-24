@@ -131,6 +131,8 @@ class DeformableTransformer(nn.Module):
         mask_flatten = []
         lvl_pos_embed_flatten = []
         spatial_shapes = []
+        # 每个尺度的特征图，每个channel每一个像素都对应一个pos，srcs[i]: [b * c * h * w] pos[i]: [b * c * h * w]
+        # 每个尺度的特征图，不同channel每一个像素都对应一个pos masks[i]: [b * h * w]
         for lvl, (src, mask, pos_embed) in enumerate(zip(srcs, masks, pos_embeds)):
             bs, c, h, w = src.shape
             spatial_shape = (h, w)
@@ -150,6 +152,7 @@ class DeformableTransformer(nn.Module):
         mask_flatten = torch.cat(mask_flatten, 1)
         lvl_pos_embed_flatten = torch.cat(lvl_pos_embed_flatten, 1)
         spatial_shapes = torch.as_tensor(spatial_shapes, dtype=torch.long, device=src_flatten.device)
+        # 将不同尺度特征图h和w拉平加起来（(H/8 * W/8)+..+(H/64 * W/64)）之后，记录每个尺度开始位置在前面这个数字中的index
         level_start_index = torch.cat((spatial_shapes.new_zeros((1, )), spatial_shapes.prod(1).cumsum(0)[:-1]))
         valid_ratios = torch.stack([self.get_valid_ratio(m) for m in masks], 1)
 
@@ -242,6 +245,7 @@ class DeformableTransformerEncoder(nn.Module):
     @staticmethod
     def get_reference_points(spatial_shapes, valid_ratios, device):
         reference_points_list = []
+        # 遍历四个尺度的h和w信息
         for lvl, (H_, W_) in enumerate(spatial_shapes):
 
             ref_y, ref_x = torch.meshgrid(torch.linspace(0.5, H_ - 0.5, H_, dtype=torch.float32, device=device),
@@ -257,7 +261,8 @@ class DeformableTransformerEncoder(nn.Module):
     def forward(self, src, spatial_shapes, level_start_index, valid_ratios, pos=None, padding_mask=None):
         output = src
         # B * (H/8 * W/8 + H/16 * W/16 + H/32 * W/32 + H/64 * W/64) * 4 * 2
-        # 4代表4个尺度的特征图，每个尺度都有一个reference_point
+        # 每个尺度的每个像素都对应一个reference point，所以应该是B * sum(代表上式那一坨) * 2
+        # 但是这里多了个维度，数量为4，发现只是简单复制了4份，即rp[x, y, i, z]，i=0,1,2,3，都是一样的值
         reference_points = self.get_reference_points(spatial_shapes, valid_ratios, device=src.device)
         for _, layer in enumerate(self.layers):
             output = layer(output, pos, reference_points, spatial_shapes, level_start_index, padding_mask)

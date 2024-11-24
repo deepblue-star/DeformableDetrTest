@@ -174,6 +174,34 @@ class AttentionVisualizer:
         dec_cross_attn_attention_weights = self.dec_cross_attn_attention_weights
         dec_query_5 = self.dec_query_5
 
+    def features_visualizaion_v2(self):
+        conv_features = self.conv_features
+        feature_maps = []
+        for conv_feature_nested in conv_features.values():
+            conv_feature = conv_feature_nested.tensors.cpu().data
+            conv_feature = conv_feature.squeeze(0)
+            gray_scale_feature = conv_feature.sum(0)
+            feature_maps.append(gray_scale_feature)
+
+        fig = plt.figure(figsize=(30, 30))
+        for i in range(len(feature_maps)):  # len = 3
+            feature_map = feature_maps[i]
+            feature_map = (feature_map - feature_map.min()) / (feature_map.max() - feature_map.min())
+            a = fig.add_subplot(2, 2, i + 1)
+            plt.imshow(feature_map)
+            a.axis("off")
+            a.set_title("feautre: {}".format(i), fontsize=30)  # names[i].split('(')[0] 结果为Conv2d
+
+        a = fig.add_subplot(2, 2, 4)
+        plt.imshow(self.pil_img)
+        a.axis("off")
+        a.set_title("original image")
+
+        plt.savefig('./backbone_feature_maps.jpg', bbox_inches='tight')
+        viz = cv2.imread('./backbone_feature_maps.jpg')
+        return viz
+
+
     def get_nearest_point_query_id_of_bbox(self, reference_point, cx, cy):
         points = np.array(reference_point.detach().cpu().data)
 
@@ -297,18 +325,17 @@ class AttentionVisualizer:
 
         plt.close()
 
-    def enc_attention_visualizaion_v2(self, path):
+    def enc_attention_visualizaion_v2(self, path, prob_threshold=0.97):
         query_id = 8888
         level_index = 3
         head_index = 7
         level_inspect = True
         all_inspect = True
-        prob_threshold = 0.97
+
 
         query, reference_points, input_flatten, input_spatial_shapes, input_level_start_index, input_padding_mask = self.enc_attn_input
         enc_attn_weights = self.enc_attn_weights
         enc_attn_sampling_offsets = self.enc_attn_sampling_offsets
-
 
         # 找到距离预测bbox最近的queryid
         probas = self.model_output['pred_logits'].softmax(-1)[0, :, :-1]
@@ -360,6 +387,7 @@ class AttentionVisualizer:
 
         bboxes = self.model_output['pred_boxes'][0, pred_id]
         cx, cy = bboxes[0], bboxes[1]
+        # 多尺度特征图上，一共四个尺度，每个尺度的h * w加起来一共15495个像素，每个像素对应一个reference_point
         query_id = self.get_nearest_point_query_id_of_bbox(reference_points[0, :, level_index, :], float(cx.cpu().data),
                                                            float(cy.cpu().data))
         query_point_coord = np.array(reference_points[0, query_id, level_index, :].cpu().data)
@@ -909,12 +937,17 @@ class AttentionVisualizer:
         # self.dec_attention_visualizaion(path)
         # self.query_position_evolvement_visualization(path)
 
-    def run_and_return_img(self, path):
+    def run_and_return_img(self, path, prob_threshold=0.97):
         self.compute_on_image(path)
+
         result = {}
-        heatmap, reference_points = self.enc_attention_visualizaion_v2(path)
+
+        heatmap, reference_points = self.enc_attention_visualizaion_v2(path, prob_threshold)
         result["enc_attention_visualization"] = heatmap
         result["reference_points"] = reference_points
+
+        backbone_features = self.features_visualizaion_v2()
+        result["backbone_features_visualization"] = backbone_features
         return result
 
 
