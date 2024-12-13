@@ -17,7 +17,7 @@ class TrainConstant:
 
     coco_path = os.path.join(root_path, "data", "coco", "coco_data")
 
-    output_path = os.path.join(root_path, "Deformable-DETR-main-repo", "train_result", "class%d" % num_classes, date_time)
+    output_path = os.path.join(root_path, "Deformable-DETR-main-repo", "evaluate_result", "class%d" % num_classes, date_time)
 
     detect_model_path = os.path.join(root_path, "Deformable-DETR-main-repo", "train_result", "class%d" % num_classes, "2024-11-01 19:59:00", "checkpoint0499.pth")
     test_images_path = os.path.join(root_path, "test_images")
