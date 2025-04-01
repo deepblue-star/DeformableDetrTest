@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1507daf-f05b-4de4-8a97-2326905f6e02" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/eval/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eval/evaluate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/constants/train_constant.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants/train_constant.py" afterDir="false" />
     </list>
@@ -153,8 +151,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.evaluate" />
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.test_detect" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.visualize_reference_points" />
         <item itemvalue="Python.train_constant" />
       </list>
@@ -187,11 +185,6 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/test_detect.py</url>
-          <line>100</line>
-          <option name="timeStamp" value="208" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/test_detect.py</url>
           <line>42</line>
           <option name="timeStamp" value="209" />
         </line-breakpoint>
@@ -209,6 +202,26 @@
           <url>file://$PROJECT_DIR$/eval/evaluate.py</url>
           <line>292</line>
           <option name="timeStamp" value="221" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/eval/evaluate.py</url>
+          <line>157</line>
+          <option name="timeStamp" value="222" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/eval/evaluate.py</url>
+          <line>151</line>
+          <option name="timeStamp" value="223" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_detect.py</url>
+          <line>96</line>
+          <option name="timeStamp" value="225" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/deformable_detr.py</url>
+          <line>130</line>
+          <option name="timeStamp" value="226" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
