@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import torch
 import torchvision.transforms as T
 from torch.utils.data import DataLoader
-from torchcam.utils import overlay_mask
 from torch.nn.functional import dropout,linear,softmax
 from tqdm import tqdm
 
@@ -301,10 +300,23 @@ def run_on_select_test_images():
         print(waste_avg)
 
 
+def get_model_size(model):
+    param_size = 0
+    for param in model.parameters():
+        param_size += param.nelement() * param.element_size()  # 参数数量 × 每个参数的字节数
+    buffer_size = 0
+    for buffer in model.buffers():
+        buffer_size += buffer.nelement() * buffer.element_size()  # 缓冲区大小
+
+    total_size = param_size + buffer_size
+    return total_size / (1024 ** 2)  # 转换为 MB
+
 def run_by_original_evaluate():
     main_args = get_main_args_parser().parse_args()
     # 加载模型 修改成自己路径
     dfdetr, criterion, postprocessors = load_model(TrainConstant.detect_model_path, main_args)  # <--修改为自己加载模型的路径
+    model_size_mb = get_model_size(dfdetr)
+    print(f"[INFO] Model size: {model_size_mb:.2f} MB")
     dataset_val = build_dataset(image_set='val', args=main_args)
     sampler_val = torch.utils.data.SequentialSampler(dataset_val)
     data_loader_val = DataLoader(dataset_val, main_args.batch_size, sampler=sampler_val,

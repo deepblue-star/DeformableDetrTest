@@ -10,7 +10,7 @@ class TrainConstant:
 
     num_classes = 3  # 物体种类 + 1 (因为包含了背景)
 
-    root_path = "/home/ubuntu/user/zhanghaozheng/Deformable-DETR-main"
+    root_path = "/root/zhanghaozheng/project/DeformableDetrTest"
 
     pretrained_model_before_convert_path = os.path.join(root_path, "Deformable-DETR-main-repo", "pretrained_model", "r50_deformable_detr-checkpoint.pth")
     pretrained_model_after_convert_path = os.path.join(root_path, "Deformable-DETR-main-repo", "converted_pretrained_model", "deformable_detr-r50_%d.pth" % num_classes)
@@ -19,7 +19,7 @@ class TrainConstant:
 
     output_path = os.path.join(root_path, "Deformable-DETR-main-repo", "train_result", "class%d" % num_classes, date_time)
 
-    detect_model_path = os.path.join(root_path, "Deformable-DETR-main-repo", "train_result", "class%d" % num_classes, "2025-03-03 22:49:54", "checkpoint0499.pth")
+    detect_model_path = os.path.join(root_path, "Deformable-DETR-main-repo", "train_result", "class%d" % num_classes, "history", "checkpoint0499.pth")
     test_images_path = os.path.join(root_path, "test_images")
 
     val_gt_path = os.path.join(coco_path, "annotations", "instances_val2017.json")
